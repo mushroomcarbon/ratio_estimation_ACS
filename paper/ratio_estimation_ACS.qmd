@@ -1,0 +1,38 @@
+---
+title: "Estimating state populations based on California's doctorate holder ratio with ratio estimation"
+author: "Andrew Goh, Yisu Hou, Liam Wall"
+format: pdf
+bibliography: references.bib
+---
+
+Data was obtained from IPUMS 2022 ACS [@ipums_data]. R [@talia], tidyverse [@thereferencecanbewhatever], and dplyr [@dplyr] were used to analyse and modify the data. Styler [@styler] was used to style the code files.
+
+
+How to obtain the data: data was obtained from IPUMS 2022 ACS - first, we created an account on IPUMS. Then, we selected only the 2022 ACS dataset, taking the variables sex (SEX under person-demographic), state (STATEICP under household-geographic), and highest education taken (EDUC under person-education). Once we selected the correct variables, we then submitted the data set for review, downloaded the extract (in .csv format), then used the codebook for reference to match integer values with the data represented.
+
+The ratio estimators approach involves using the ratio of two means for a particular sample to extrapolate an estimate for other, similar, populations. For this particular example, we used the dataset to find the ratio between the total number of doctorates in California and the total number of respondents in California, then used that ratio to estimate the total number of respondents in each other state by applying the ratio to the total number of doctorates in said states.
+
+The estimates (via the ratio estimation method) and actual number of respondents is as follows:
+
+
+```{r load-data, echo=FALSE, show_col_types=FALSE}
+#|echo: false
+#|warnings: false
+#|message: false
+#|label: tbl-estimatedvsactual
+
+# Load necessary libraries
+library(readr)
+library(knitr)
+
+# Read the CSV file
+data <- read_csv(here::here("data/estimated_vs_actual_respondents.csv"), show_col_types = FALSE)
+
+# Display the table
+kable(data, caption = "Estimated Total Respondents (via ratio estimation method) vs Actual Total Respondents by State")
+```
+
+We notice that the difference in estimated vs actual total respondents is only reasonably accurate (within 1 million people difference) for 4 of the 51 geographical areas listed in the data. Potential reasons for this include how the public education system in California is stronger than that of most other states, leading to a higher percentage of doctorate degree holders than that of other regions in the USA, potentially leading to inaccurate total respondents estimates. California's high average GDP might also lead to a wealthier demographic in total, which in turn correlates with a larger percentage of doctorate holders in the population as a whole.
+\newpage
+
+# References
